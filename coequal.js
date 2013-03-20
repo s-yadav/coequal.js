@@ -8,7 +8,7 @@
 	function coequal(data1, data2,option) {
 	    option=option||{};
 		var funCheck=option.functionCheck||'constructor',
-			sortArray=option.sortArray||false,
+			orderCheck=option.orderCheck||true,
 			collCheck=option.collectionCheck||false;
 		var getType = function (data) {
 	        var type = Object.prototype.toString.call(data),
@@ -40,6 +40,7 @@
 	                return coequal(data1[k], data2[k]);
 
 	            }
+
 	            for (k in data2) {
 	                if (data2.hasOwnProperty(k) && !data1.hasOwnProperty(k)) return false;
 	            }
@@ -51,7 +52,7 @@
 	                    checked = [];
 	                for (var i = 0; i < data1.length; i++) {
 						//if array element order matters
-						if (!sortArray) {
+						if (orderCheck) {
 							if (!coequal(data1[i], data2[i])) return false;
 						}
 						//if array element order not matters else {
