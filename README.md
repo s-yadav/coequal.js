@@ -1,7 +1,7 @@
 coequal.js
 ==========
 
-coequal is a small utility function to check all type data types and objects in javascript.
+coequal is a small utility function to check all  data types and objects in javascript.
 <p>coequal perform a deep comparison to find equality of data and objects. For different objects conditions are different. Let see all senarios.</p>
 <strong>1. Array</strong> :  Array of any data types are supported for comparision.
 For ex:
@@ -80,7 +80,7 @@ coequal(a,c) //return true;
     coequal(cir, cir2) //return true;
 </p></code></pre>
 
-<strong>4. Date object</strong> :
+<strong>5. Date object</strong> :
 Date object are compared by milliseconds from those objects.
 <pre><code>
 var date1=new Date('05/03/2013');
@@ -88,7 +88,7 @@ var date2=new Date('05/03/2013');
 coequal(date1, date2) //return true;
 </code></pre>
 
-<strong>5. Regex object</strong> :
+<strong>6. Regex object</strong> :
 Rexed object are converted to string and compared.
 <pre><code>
 var rg1=/[1-9]/g;
@@ -99,7 +99,7 @@ coequal(rg1, rg2) //return true;
 coequal(rg1, rg3) //return true;
 </code></pre>
 
-<strong>6. string or number</strong> :
+<strong>7. string or number</strong> :
 For string or number dont use this method because they are directly comparable. But even though you can compare it.<br>
 <pre><code>
 coequal(2345,2345 ) //return true;
