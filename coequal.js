@@ -6,10 +6,6 @@
 	*Dual licensed under the MIT and GPL licenses
 */
 	function coequal(data1, data2,option) {
-	    option=option||{};
-		var funCheck=option.functionCheck||'constructor',
-			orderCheck=option.orderCheck||true,
-			collCheck=option.collectionCheck||false;
 		var getType = function (data) {
 	        var type = Object.prototype.toString.call(data),
 	        domIntrfc=['object HTML','object Node','object SVG','object Canvas'],
@@ -22,14 +18,19 @@
 				}
 			return type; 
 	    }
-	    var data1Type = getType(data1),
-	        data2Type = getType(data2);
+	    var check=function(data1,data2,option){
+		var data1Type = getType(data1),
+	        data2Type = getType(data2),
+			option=option||{};
+			var funCheck=option.functionCheck||'constructor',
+				orderCheck=option.orderCheck==null?true:option.orderCheck,
+				collCheck=option.collectionCheck||false;
 	    if (data1Type != data2Type) return false;
 	        if (data1Type == '[object Function]') {
 	            if(funCheck=='code'){
 					return data1.toString() == data2.toString();
 					}
-				else if (data1.constructor !== data2.constructor) return false;
+				else if (data1 !== data2) return false;
 	        } else if (data1Type == '[object Object]') {
 
 	            for (var k in data1) {
@@ -37,7 +38,8 @@
 
 	                if (!data2.hasOwnProperty(k)) return false;
 
-	                return coequal(data1[k], data2[k]);
+	              
+					 if(!check(data1[k], data2[k],option))return false;
 
 	            }
 
@@ -53,16 +55,17 @@
 	                for (var i = 0; i < data1.length; i++) {
 						//if array element order matters
 						if (orderCheck) {
-							if (!coequal(data1[i], data2[i])) return false;
+							if (!check(data1[i], data2[i],option)) return false;
 						}
 						//if array element order not matters else {
 	                    else{
 						cnt1++;
 	                    for (var j = 0; j < data2.length; j++) {
 	                        if (checked.indexOf(j)!=-1) continue;
-	                        if (coequal(data1[i], data2[j])) {
+	                        if (check(data1[i], data2[j])) {
 	                            cnt2++;
 	                            checked.push(j);
+								break;
 	                        }
 	                    }
 	                    if (cnt1 != cnt2) return false;
@@ -70,13 +73,13 @@
 					}
 	            }
 	        else if(data1Type == '[object Date]'){
-				return data1.getTime()==data1.getTime(); 
+				return data1.getTime()==data2.getTime(); 
 				}
 			else if(data1Type=='[object RegExp]'){
 				return data1.toString()==data2.toString();
 				}
 			else if(data1Type == 'jquery'){
-				 coequal(data1.get(), data2[j].get());
+				return check(data1.get(), data2.get(),option);
 				}
 			else if(data1Type=='dom'){
 				var collToArry=function(data){
@@ -91,13 +94,19 @@
 						}
 					return ary;	
 					}
+			
 				if(collCheck){
-					return coequal(collToArry(data1),collToArry(data2))
+					option.collectionCheck=false;
+					return check(collToArry(data1),collToArry(data2),option)
 					}
 				else{
 					return data1===data2;
 					}		
 				}	
-			else {return data1!==data2}
+			else {return data1===data2}
 			return true;		
 			}
+			
+			//to initialize
+			return check(data1,data2,option);
+			}		
