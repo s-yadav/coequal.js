@@ -138,4 +138,4 @@ coequal('abcd', 'abcd') //return true;
 <br />
 <br />
 <strong>Limitation</strong><br />
-1. Object must not be cyclic object, else it ill go on ifinite loop.
+1. Object must not be cyclic object, else it ill go on infinite loop.
