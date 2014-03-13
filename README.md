@@ -1,7 +1,7 @@
 coequal.js
 ==========
 
-coequal is a small utility function to check all  data types and objects in javascript.
+coequal is a small utility function to check equality of all  data types and objects in javascript.
 <p>coequal perform a deep comparison to find equality of data and objects. For different objects conditions are different. Let see all senarios.</p>
 <strong>1. Array</strong> :  Array of any data types are supported for comparision.
 For ex:
